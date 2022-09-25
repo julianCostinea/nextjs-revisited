@@ -4,13 +4,21 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { GetStaticProps, GetStaticPaths } from "next";
 import axios, { AxiosError } from "axios";
-import PokemonItem from "../components/PokemonItem/PokemonItem";
+import { ParsedUrlQuery } from "querystring";
 
-export interface fetchedPokemons {
-  results: {
-    url: string;
-    name: string;
+export interface Pokemon {
+  id: number;
+  name: string;
+  types: {
+    type: {
+      name: string;
+    };
   }[];
+  height: number;
+  weight: number;
+  sprites: {
+    front_default: string;
+  };
 }
 
 async function axiosGetJsonData<T>(url: string): Promise<T> {
@@ -32,15 +40,13 @@ async function axiosGetJsonData<T>(url: string): Promise<T> {
   }
 }
 
-const Home: NextPage<fetchedPokemons> = ({ results }) => {
-  const randomPokemonNumber = Math.floor(Math.random() * 152);
-  let pokemons = results
-    // .slice(randomPokemonNumber - 5, randomPokemonNumber + 5)
-    .map((pokemon) => {
-      return (
-        <PokemonItem url={pokemon.url} name={pokemon.name} key={pokemon.url} />
-      );
-    });
+const PokemonArticle: NextPage<Pokemon> = ({
+  name,
+  types,
+  height,
+  weight,
+  sprites,
+}) => {
   return (
     <div className={styles.container}>
       <Head>
@@ -50,8 +56,14 @@ const Home: NextPage<fetchedPokemons> = ({ results }) => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>NEXTJS Revisited</h1>
-        <div className={styles.pokemonContainer}>{pokemons}</div>
+        <div className={styles.pokedexImageContainer}>
+          <Image
+            layout="fill"
+            src={sprites.front_default}
+            alt="Pokemon front image"
+          />
+        </div>
+        <h1 className={styles.title}>{name}</h1>
       </main>
 
       <footer className={styles.footer}>
@@ -70,31 +82,48 @@ const Home: NextPage<fetchedPokemons> = ({ results }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const res = await axiosGetJsonData<fetchedPokemons>(
-    "https://pokeapi.co/api/v2/pokemon?limit=10"
-  );
-  const results = res.results;
+interface contextParams extends ParsedUrlQuery {
+  pokeId: string;
+}
 
-  if (!results) {
+export const getStaticProps: GetStaticProps<Pokemon, contextParams> = async (context) => {
+  let pokeId;
+  if (context.params) {
+    pokeId = context.params.pokeId;
+  }
+
+  const res = await axiosGetJsonData<Pokemon>(
+    `https://pokeapi.co/api/v2/pokemon/${pokeId}`
+  );
+
+  if (!res) {
     return {
       redirect: {
         destination: "/no-data",
-        statusCode: 307
+        statusCode: 307,
       },
-    };
-  }
-  if (results.length === 0) {
-    return {
-      notFound: true
     };
   }
 
   return {
     props: {
-      results,
+      id: res.id,
+      name: res.name,
+      types: res.types,
+      height: res.height,
+      weight: res.weight,
+      sprites: res.sprites,
     },
   };
 };
 
-export default Home;
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { pokeId: "1" } }, // See the "paths" section below
+    ],
+    fallback: true,
+  };
+};
+
+export default PokemonArticle;
