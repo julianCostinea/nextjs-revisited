@@ -13,27 +13,27 @@ export interface fetchedPokemons {
   }[];
 }
 
-async function axiosGetJsonData<T>(url: string): Promise<T> {
+async function axiosGetJsonData<T>(url: string) {
   try {
     const response = await axios.get<T>(url);
     return response.data;
   } catch (error) {
     const errors = error as Error | AxiosError;
-    // if (!axios.isAxiosError(error as any)) {
-
-    // }
-    if (errors instanceof AxiosError) {
-      throw new Error(
-        `Error in 'axiosGetJsonData(${url})': ${errors.message}. Status: ${errors.status}`
-      );
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Error in 'axiosGetJsonData(${url})': ${errors.message}`);
     }
+    // if (errors instanceof AxiosError) {
+    //   throw new Error(
+    //     `Error in 'axiosGetJsonData(${url})': ${errors.message}. Status: ${errors.status}`
+    //   );
+    // }
     console.log(errors);
-    throw new Error(`Error in 'axiosGetJsonData(${url})': ${errors.message}`);
+    throw new Error(`Unexpected error': ${errors.message}`);
   }
 }
 
 const Home: NextPage<fetchedPokemons> = ({ results }) => {
-  const randomPokemonNumber = Math.floor(Math.random() * 152);
+  // const randomPokemonNumber = Math.floor(Math.random() * 152);
   let pokemons = results
     // .slice(randomPokemonNumber - 5, randomPokemonNumber + 5)
     .map((pokemon) => {

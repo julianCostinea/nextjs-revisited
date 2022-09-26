@@ -1,8 +1,7 @@
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { GetStaticProps, GetStaticPaths } from "next";
 import axios, { AxiosError } from "axios";
 import { ParsedUrlQuery } from "querystring";
 import Loader from "../components/UI/Loader/Loaders";
@@ -29,6 +28,7 @@ async function axiosGetJsonData<T>(url: string) {
   } catch (error) {
     const errors = error as Error | AxiosError;
     if (axios.isAxiosError(error)) {
+      console.log(errors.message);
       throw new Error(`Error in 'axiosGetJsonData(${url})': ${errors.message}`);
     }
     // if (errors instanceof AxiosError) {
@@ -36,11 +36,12 @@ async function axiosGetJsonData<T>(url: string) {
     //     `Error in 'axiosGetJsonData(${url})': ${errors.message}. Status: ${errors.status}`
     //   );
     // }
+    console.log(errors);
     throw new Error(`Unexpected error': ${errors.message}`);
   }
 }
 
-const PokemonArticle: NextPage<Pokemon> = ({
+const Server: NextPage<Pokemon> = ({
   name,
   types,
   height,
@@ -94,15 +95,17 @@ interface contextParams extends ParsedUrlQuery {
   pokeId: string;
 }
 
-export const getStaticProps: GetStaticProps<Pokemon, contextParams> = async (context) => {
+export const getServerSideProps: GetServerSideProps<Pokemon, contextParams> = async (context) => {
   // let pokeId!:string;
   let pokeId: string | undefined;
   if (context.params) {
     pokeId = context.params.pokeId;
   }
+  console.log(context.req);
+  
   try {
     const res = await axiosGetJsonData<Pokemon>(
-      `https://pokeapi.co/api/v2/pokemon/${pokeId}`
+      `https://pokeapi.co/api/v2/pokemon/3`
     );
     if (!res) {
       return {
@@ -125,22 +128,11 @@ export const getStaticProps: GetStaticProps<Pokemon, contextParams> = async (con
     };
   } catch (error) {
     const errors = error as Error | AxiosError;
-    console.error(errors.message);
+    console.log(errors.message);
     return {
       notFound: true
     };
   }
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [
-      { params: { pokeId: "1" } },
-      { params: { pokeId: "2" } },
-      { params: { pokeId: "3" } },
-    ],
-    fallback: true,
-  };
-};
-
-export default PokemonArticle;
+export default Server;
