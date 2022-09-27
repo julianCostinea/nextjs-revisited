@@ -1,7 +1,7 @@
 import React, { useContext, useState, ReactElement } from "react";
 import Image from "next/image";
 
-import classes from "./PokemonItem.module.css";
+import classes from "./PokemonItem.module.scss";
 import Link from "next/link";
 
 export interface IProps {
