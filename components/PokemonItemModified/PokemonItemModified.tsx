@@ -1,7 +1,7 @@
 import React, { useContext, useState, ReactElement } from "react";
 import Image from "next/image";
 
-import classes from "./PokemonItem.module.scss";
+import classes from "./PokemonItemModified.module.scss";
 import Link from "next/link";
 
 export interface IProps {
@@ -9,10 +9,10 @@ export interface IProps {
   name: string;
 }
 
-const PokemonItem: React.FC<IProps> = ({ url, name }): ReactElement => {
+const PokemonItemModified: React.FC<IProps> = ({ url, name }): ReactElement => {
   return (
     <Link href={`/pokemon/${url.slice(-2, -1)}`}>
-      <article className={classes.pokemonItem} key={url}>
+      <article className={classes.pokemonItemModified} key={url}>
         <div className={classes.imageContainer}>
           <Image
             src="https://images.unsplash.com/photo-1542779283-429940ce8336?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80"
@@ -20,12 +20,15 @@ const PokemonItem: React.FC<IProps> = ({ url, name }): ReactElement => {
             alt="pokemon Image"
           />
         </div>
-        <h2 className={classes.pokemonItemTitle}>{name}</h2>
-        <section>
-          <p>{}</p>
+        <section className={classes.pokemonDetails}>
+          <h2 className={classes.pokemonItemTitle}>{name}</h2>
+          <div className={classes.contentOverlay}>
+            <h4 className={classes.pokemonType}> Type: Electric</h4>
+            <h4 className={classes.pokemonWeight}> Weight: 20 kg.</h4>
+          </div>
         </section>
       </article>
     </Link>
   );
 };
-export default PokemonItem;
+export default PokemonItemModified;

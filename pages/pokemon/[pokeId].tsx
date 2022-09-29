@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import styles from "../../styles/Home.module.css";
 import { GetStaticProps, GetStaticPaths } from "next";
 import axios, { AxiosError } from "axios";
 import { ParsedUrlQuery } from "querystring";
-import Loader from "../components/UI/Loader/Loaders";
+import Loader from "../../components/UI/Loader/Loaders";
 
 export interface Pokemon {
   id: number;
@@ -46,6 +46,7 @@ const PokemonArticle: NextPage<Pokemon> = ({
   height,
   weight,
   sprites,
+  id
 }) => {
   if (!name || !sprites) {
     return (<main className={styles.main}>
@@ -55,7 +56,10 @@ const PokemonArticle: NextPage<Pokemon> = ({
       <h1 className={styles.title}>{name}</h1>
     </main>)
   }
-  return (
+  console.log("logging");
+  console.log(id);
+
+  return (    
     <div className={styles.container}>
       <Head>
         <title>Typescript Nextjs </title>
@@ -99,6 +103,18 @@ export const getStaticProps: GetStaticProps<Pokemon, contextParams> = async (con
   let pokeId: string | undefined;
   if (context.params) {
     pokeId = context.params.pokeId;
+  }
+
+  console.log("server logging");
+  console.log(pokeId);
+  
+  if (pokeId == undefined) {
+    return {
+      redirect: {
+        destination: "/no-data",
+        statusCode: 307,
+      },
+    };
   }
   try {
     const res = await axiosGetJsonData<Pokemon>(
