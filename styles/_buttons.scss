@@ -1,0 +1,54 @@
+@mixin after($content: "", $position: absolute) {
+  position: relative;
+
+  &::after {
+    content: $content;
+    position: $position;
+    top: 0;
+    left: 0;
+    @content;
+  }
+}
+
+@mixin hoverButton {
+  cursor: pointer;
+  transition: transform 0.35s ease-in-out;
+  box-shadow: 0 0.25em 0.5em 0 rgba($color: #000000, $alpha: 0.2);
+  backface-visibility: hidden;
+
+  @include after() {
+    box-shadow: 0 0 1.25em 0 rgba($color: #000000, $alpha: 0.4);
+    transition: opacity 0.35s ease-in-out;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    // z-index: -1;
+  }
+
+  &:hover,
+  &:focus {
+    transform: scale(1.2) translate3d( 0, 0, 0);
+    &::after {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin button(
+  $width: 100px,
+  $height: 50px,
+  $color: white,
+  $backgroundColor: palevioletred
+) {
+  //   @if $width > 100px {
+  //     @warn "Width might be too big";
+  //   }
+  width: $width;
+  height: $height;
+  color: $color;
+  background-color: $backgroundColor;
+  border: none;
+  font-size: 1rem;
+  @include hoverButton;
+}

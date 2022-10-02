@@ -20,9 +20,15 @@ const PokemonItem: React.FC<IProps> = ({ url, name }): ReactElement => {
             alt="pokemon Image"
           />
         </div>
-        <h2 className={classes.pokemonItemTitle}>{name}</h2>
+        <h2 className={classes.pokemonItemTitle}>
+          {name} {<div className={classes.iconEye}></div>}
+        </h2>
         <section>
-          <p>{}</p>
+          <ul className={classes.detailsList}>
+            <li>Lonely</li>
+            <li>Brave</li>
+            <li>Adamant</li>
+          </ul>
         </section>
       </article>
     </Link>

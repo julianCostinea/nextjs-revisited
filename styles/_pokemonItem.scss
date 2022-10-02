@@ -1,6 +1,10 @@
 $base-color: #c6538c;
 
 @mixin displayItem($height: 11rem, $width: 10rem) {
+  @if $width < 10rem {
+    @error "Width must be higher than 10 rem";
+  }
+
   position: relative;
   box-shadow: 5px 5px 3px 0px rgba(0, 0, 0, 0.25);
   height: $height;
@@ -16,7 +20,7 @@ $base-color: #c6538c;
 }
 
 .pokemonItem {
-  @include displayItem();
+  @include displayItem($width: 10rem);
   color: $base-color;
 
   &Title {
@@ -26,7 +30,7 @@ $base-color: #c6538c;
   .imageContainer {
     position: relative;
     width: 100%;
-    height: 50%;
+    height: 8rem;
     z-index: 3;
   }
 
@@ -47,7 +51,34 @@ $base-color: #c6538c;
   }
 }
 
+$icons: (
+  "Eye": "\00a9",
+  "Start": "\f12e",
+  "Stop": "\f12f",
+);
 
+@each $name, $glyph in $icons {
+  // .icon#{$name} {
+  //   display: inline-block;
+  // }
+  .icon#{$name}:before {
+    display: inline-block;
+    font-family: "Icon Font";
+    content: $glyph;
+  }
+}
+
+.detailsList{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@for $i from 1 through 3 {
+  .detailsList > li:nth-child(n + #{$i}) {
+    background-color: lighten($base-color, $i * 10%);
+  }
+}
 
 /* .overlay {
     position: absolute;

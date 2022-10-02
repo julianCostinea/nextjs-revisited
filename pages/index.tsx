@@ -6,6 +6,7 @@ import { GetStaticProps, GetStaticPaths } from "next";
 import axios, { AxiosError } from "axios";
 import PokemonItem from "../components/PokemonItem/PokemonItem";
 import { permute, findPermutations } from '../components/Permutations/Permutations'
+import Button from "../components/Button/Button";
 
 export interface fetchedPokemons {
   results: {
@@ -42,8 +43,8 @@ const Home: NextPage<fetchedPokemons> = ({ results }) => {
         <PokemonItem url={pokemon.url} name={pokemon.name} key={pokemon.url} />
       );
     });
-  console.log(permute([1, 2, 3]));
-  console.log(findPermutations("abc"));
+  // console.log(permute([1, 2, 3]));
+  // console.log(findPermutations("abc"));
 
   return (
     <div className={styles.container}>
@@ -56,6 +57,7 @@ const Home: NextPage<fetchedPokemons> = ({ results }) => {
       <main className={styles.main}>
         <h1 className={styles.title}>NEXTJS Revisited</h1>
         <div className={styles.pokemonContainer}>{pokemons}</div>
+        <Button buttonText="Press Me"/>
       </main>
 
       <footer className={styles.footer}>
