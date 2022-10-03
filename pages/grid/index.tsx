@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import "./grid.scss";
-
+import classes from "./grid.module.scss";
 
 const Grid: NextPage = () => {
   return (
@@ -13,48 +12,72 @@ const Grid: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="main">
-      <div className="card">
-            <div className="info">
-                <strong className="title">My Title</strong>
-                <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consectetur sapiente ipsam nihil velit quae ab unde quasi exercitationem esse</p>        
-            </div>
-            <img src="http://freeaussiestock.com/free/Victoria/Melbourne/slides/fed_square.jpg"/>
+      <main className={classes.main}>
+        <div className={classes.card}>
+          <div className={classes.info}>
+            <strong className={classes.title}>My Title</strong>
+            <p className={classes.desc}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
+              consectetur sapiente ipsam nihil velit quae ab unde quasi
+              exercitationem esse
+            </p>
+          </div>
+          <img src="http://freeaussiestock.com/free/Victoria/Melbourne/slides/fed_square.jpg" />
         </div>
-        <div className="card">
-            <div className="info">
-                <strong className="title">My Title</strong>
-                <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consectetur sapiente ipsam nihil velit quae ab unde quasi exercitationem esse</p>        
-            </div>
-            <img src="https://media.defense.gov/2013/Jul/16/2000032379/-1/-1/0/130628-F-DQ639-002.JPG"/>
+        <div className={classes.card}>
+          <div className={classes.info}>
+            <strong className={classes.title}>My Title</strong>
+            <p className={classes.desc}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
+              consectetur sapiente ipsam nihil velit quae ab unde quasi
+              exercitationem esse
+            </p>
+          </div>
+          <img src="http://freeaussiestock.com/free/Victoria/Melbourne/slides/fed_square.jpg" />
         </div>
-        <div className="card">
-            <div className="info">
-                <strong className="title">My Title</strong>
-                <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consectetur sapiente ipsam nihil velit quae ab unde quasi exercitationem esse</p>        
-            </div>
-            <img src="https://s0.geograph.org.uk/geophotos/03/25/64/3256477_ec7d83ab.jpg"/>
+        <div className={classes.card}>
+          <div className={classes.info}>
+            <strong className={classes.title}>My Title</strong>
+            <p className={classes.desc}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
+              consectetur sapiente ipsam nihil velit quae ab unde quasi
+              exercitationem esse
+            </p>
+          </div>
+          <img src="http://freeaussiestock.com/free/Victoria/Melbourne/slides/fed_square.jpg" />
         </div>
-        <div className="card">
-            <div className="info">
-                <strong className="title">My Title</strong>
-                <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consectetur sapiente ipsam nihil velit quae ab unde quasi exercitationem esse</p>        
-            </div>
-            <img src="http://freeaussiestock.com/free/Victoria/Melbourne/slides/melbourne_museum_roof.jpg"/>
+        <div className={classes.card}>
+          <div className={classes.info}>
+            <strong className={classes.title}>My Title</strong>
+            <p className={classes.desc}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
+              consectetur sapiente ipsam nihil velit quae ab unde quasi
+              exercitationem esse
+            </p>
+          </div>
+          <img src="http://freeaussiestock.com/free/Victoria/Melbourne/slides/fed_square.jpg" />
         </div>
-        <div className="card">
-            <div className="info">
-                <strong className="title">My Title</strong>
-                <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consectetur sapiente ipsam nihil velit quae ab unde quasi exercitationem esse</p>        
-            </div>
-            <img src="https://live.staticflickr.com/2387/1726578675_62f09cb233_z.jpg"/>
+        <div className={classes.card}>
+          <div className={classes.info}>
+            <strong className={classes.title}>My Title</strong>
+            <p className={classes.desc}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
+              consectetur sapiente ipsam nihil velit quae ab unde quasi
+              exercitationem esse
+            </p>
+          </div>
+          <img src="http://freeaussiestock.com/free/Victoria/Melbourne/slides/fed_square.jpg" />
         </div>
-        <div className="card">
-            <div className="info">
-                <strong className="title">My Title</strong>
-                <p className="desc">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia consectetur sapiente ipsam nihil velit quae ab unde quasi exercitationem esse</p>        
-            </div>
-            <img src="https://s0.geograph.org.uk/geophotos/04/31/24/4312454_79d0a1d8.jpg"/>
+        <div className={classes.card}>
+          <div className={classes.info}>
+            <strong className={classes.title}>My Title</strong>
+            <p className={classes.desc}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
+              consectetur sapiente ipsam nihil velit quae ab unde quasi
+              exercitationem esse
+            </p>
+          </div>
+          <img src="http://freeaussiestock.com/free/Victoria/Melbourne/slides/fed_square.jpg" />
         </div>
       </main>
 
