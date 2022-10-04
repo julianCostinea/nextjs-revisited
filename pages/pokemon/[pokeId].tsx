@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
-import { GetStaticProps, GetStaticPaths } from "next";
+import { GetStaticProps, GetStaticPaths, InferGetStaticPropsType } from "next";
 import axios, { AxiosError } from "axios";
 import { ParsedUrlQuery } from "querystring";
 import Loader from "../../components/UI/Loader/Loaders";
@@ -40,14 +40,72 @@ async function axiosGetJsonData<T>(url: string) {
   }
 }
 
-const PokemonArticle: NextPage<Pokemon> = ({
+interface contextParams extends ParsedUrlQuery {
+  pokeId: string;
+}
+
+export const getStaticProps: GetStaticProps<Pokemon, contextParams> = async (context) => {
+  // let pokeId!:string;
+  let pokeId: string | undefined;
+  if (context.params) {
+    pokeId = context.params.pokeId;
+  }
+
+  console.log("server logging");
+  console.log(pokeId);
+
+  if (pokeId == undefined) {
+    return {
+      redirect: {
+        destination: "/no-data",
+        statusCode: 307,
+      },
+    };
+  }
+  try {
+    const res = await axiosGetJsonData<Pokemon>(
+      `https://pokeapi.co/api/v2/pokemon/${pokeId}`
+    );
+    if (!res) {
+      return {
+        // redirect: {
+        //   destination: "/no-data",
+        //   statusCode: 307,
+        // },
+        notFound: true
+      };
+    }
+    return {
+      props: res,
+    };
+  } catch (error) {
+    const errors = error as Error | AxiosError;
+    console.error(errors.message);
+    return {
+      notFound: true
+    };
+  }
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      { params: { pokeId: "1" } },
+      { params: { pokeId: "2" } },
+      { params: { pokeId: "3" } },
+    ],
+    fallback: true,
+  };
+};
+
+function PokemonArticle({
   name,
   types,
   height,
   weight,
   sprites,
   id
-}) => {
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   if (!name || !sprites) {
     return (<main className={styles.main}>
       <div className={styles.pokedexImageContainer}>
@@ -59,7 +117,7 @@ const PokemonArticle: NextPage<Pokemon> = ({
   console.log("logging");
   console.log(id);
 
-  return (    
+  return (
     <div className={styles.container}>
       <Head>
         <title>Typescript Nextjs </title>
@@ -92,71 +150,6 @@ const PokemonArticle: NextPage<Pokemon> = ({
       </footer>
     </div>
   );
-};
-
-interface contextParams extends ParsedUrlQuery {
-  pokeId: string;
-}
-
-export const getStaticProps: GetStaticProps<Pokemon, contextParams> = async (context) => {
-  // let pokeId!:string;
-  let pokeId: string | undefined;
-  if (context.params) {
-    pokeId = context.params.pokeId;
-  }
-
-  console.log("server logging");
-  console.log(pokeId);
-  
-  if (pokeId == undefined) {
-    return {
-      redirect: {
-        destination: "/no-data",
-        statusCode: 307,
-      },
-    };
-  }
-  try {
-    const res = await axiosGetJsonData<Pokemon>(
-      `https://pokeapi.co/api/v2/pokemon/${pokeId}`
-    );
-    if (!res) {
-      return {
-        // redirect: {
-        //   destination: "/no-data",
-        //   statusCode: 307,
-        // },
-        notFound: true
-      };
-    }
-    return {
-      props: {
-        id: res.id,
-        name: res.name,
-        types: res.types,
-        height: res.height,
-        weight: res.weight,
-        sprites: res.sprites,
-      },
-    };
-  } catch (error) {
-    const errors = error as Error | AxiosError;
-    console.error(errors.message);
-    return {
-      notFound: true
-    };
-  }
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [
-      { params: { pokeId: "1" } },
-      { params: { pokeId: "2" } },
-      { params: { pokeId: "3" } },
-    ],
-    fallback: true,
-  };
 };
 
 export default PokemonArticle;
