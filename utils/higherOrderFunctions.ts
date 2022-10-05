@@ -23,7 +23,6 @@ const makeIsNot: MakeIsNot = (fn) => ((v:unknown) => !fn(v)) as any;
 
 export const isNotString2 = makeIsNot(isString);
 
-
 // type MakeIsNot = {
 //     /**
 //      * Creates an inversed `PredicateFunction` from an existing `PredicateFunction`.

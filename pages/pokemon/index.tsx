@@ -12,6 +12,7 @@ import {fib, timedFib, delayedSumWithLabel} from "../../utils/higherOrderFunctio
 import { errorHandlerSum, sum2, deprecated } from "../../utils/higherOrderFunctions3";
 import {fibTimed, fib2Timed} from "../../utils/higherOrderMemoize";
 import {sumAndLog} from "../../utils/higherOrderCacheAsync";
+import {value} from '../../components/MattPocock/deepValue';
 
 export interface fetchedPokemons {
   results: {
@@ -55,6 +56,8 @@ const Home: NextPage<fetchedPokemons> = ({ results }) => {
   //   console.log(await sumAndLog(100, 200));
   // };
   // RunSumAndLog();
+  console.log(value);
+  
 
   // const randomPokemonNumber = Math.floor(Math.random() * 152);
   let pokemons = results
