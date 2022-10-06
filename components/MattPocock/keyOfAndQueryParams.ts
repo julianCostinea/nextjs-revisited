@@ -26,3 +26,8 @@ type QueryParams = {
     >[1];
   };
 }[QueryElements[number]];
+
+const obj: Union.Merge<QueryParams> = {
+  name: "burke",
+  profession: "chat-baiter"
+}
