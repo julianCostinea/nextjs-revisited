@@ -1,7 +1,7 @@
 import type {Equal, Expect} from "@type-challenges/utils";
 
 type MyPick<TObj, TKey extends keyof TObj> = {
-    [SpecificKey in TKey] : "TObj[SpecificKey]"
+    [SpecificKey in TKey] : TObj[SpecificKey]
 };
 
 interface Todo{
